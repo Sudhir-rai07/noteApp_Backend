@@ -17,15 +17,20 @@ export const signup = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassWord = await bcrypt.hash(password, salt);
     
-    const newUser = await User.create({
+   const newUser = await User.create({
       username,
       password: hashedPassWord,
       email,
       gender,
     });
   // generate token and set cookie
+  const data = {
+    user:{
+      id: newUser.id
+    }
+  }
     // Generate Token
-    const token = jwt.sign({newUser}, process.env.JWT_SECRET, {expiresIn: "15d"})
+    const token = jwt.sign({data}, process.env.JWT_SECRET, {expiresIn: "15d"})
     console.log(token)
     // Set cookies in browser
     res.cookie("token", token, {
@@ -60,8 +65,13 @@ export const login = async (req, res) => {
         .json({ message: "Try login with valid credentials", success });
 
      // generate token and set cookie
+     const data = {
+      user:{
+        id: user._id
+      }
+    }
     // Generate Token
-    const token = jwt.sign({user}, process.env.JWT_SECRET, {expiresIn: "15d"})
+    const token = jwt.sign({data}, process.env.JWT_SECRET, {expiresIn: "15d"})
     console.log(token)
     // Set cookies in browser
     res.cookie("token", token, {
