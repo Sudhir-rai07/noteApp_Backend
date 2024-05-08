@@ -12,7 +12,7 @@ const app = express();
 
 // Middleware to set CORS headers
 app.use(cors({
-    origin: ['https://note-app-frontend-umber.vercel.app', 'http://localhost:5173'],
+    origin: 'https://note-app-frontend-umber.vercel.app',
     credentials: true,
     optionsSuccessStatus: 204
 }))
